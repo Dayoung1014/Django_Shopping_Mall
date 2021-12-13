@@ -1,0 +1,68 @@
+{% extends 'item/base.html' %}
+{% block section %}
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="main-area">
+	            <!-- Book List-->
+                    {% if item_list.exists %}
+                    {% for i in item_list %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Book image-->
+                            {% if i.image %}
+                                <img class="card-img-top" src="{{ i.image.url }}" alt="..." />
+                            {% else %}
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            {% endif %}
+                            <!-- Book details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- name -->
+                                    <h5 class="fw-bolder">{{i.name}}</h5>
+                                    <!-- description -->
+                                    <h6>{{i.description}}</h6>
+                                    <!-- price -->
+                                    <h6>{{i.price}}</h6>
+                                </div>
+                            </div>
+                            <!-- Book actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ i.get_absolute_url }}">Buy</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                        {% else %}
+                            <h2>아직 게시물이 없습니다</h2>
+                    {% endif %}
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <ul class="pagination justify-content-center my-4">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">&larr; Newer</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&larr; Newer</a>
+                </li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{page_obj.next_page_number}}">Older &rarr;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">Older &rarr;</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+
+                </div>
+             </div>
+        </section>
+{% endblock %}
