@@ -9,14 +9,14 @@ class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
 
-    #def __str__(self):
-        #return self.name
+    def __str__(self):
+        return self.name
 
-    #def get_absolute_url(self):
-        #return f'/blog/category/{self.slug}'
+    def get_absolute_url(self):
+        return f'/item/category/{self.slug}'
 
-    #class Meta:
-        #verbose_name_plural = "Categories"
+    class Meta:
+        verbose_name_plural = "Categories"
 
 # 제조사
 class Company(models.Model):
@@ -27,6 +27,9 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Companies"
 
 # 상품
 class Item(models.Model):
