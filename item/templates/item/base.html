@@ -10,6 +10,10 @@
         <link href="{% static 'item/bootstrap/bootstrap.min.css'%}" rel="stylesheet" type="text/css" media=“screen">
         <link href="{% static 'item/css/styles.css'%}" rel="stylesheet" type="text/css" media="screen">
         <script src="https://kit.fontawesome.com/2d82d76c87.js" crossorigin="anonymous"></script>
+        <style type="text/css">
+            a:link { color: #6c757d; text-decoration: none;}
+            a:hover { color: #343a40; text-decoration: underline;}
+        </style>
     </head>
     <body>
         <!-- navbar-->
@@ -34,13 +38,21 @@
                 <div class="col-md-2 col-lg-2 mt-5">
                     <!-- Search widget-->
                     <div class="input-group mt-5">
-                            <input class="form-control" type="text" id="search-input" placeholder="Search for..." aria-label="Search" aria-describedby="button-search">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" id="button-search" type="button" onclick="searchPost()">
+                            <input class="form-control" type="text" id="search-input" placeholder="Search" aria-label="Search" aria-describedby="button-search">
+                            <div class="input-group-append" >
+                                <button class="btn btn-secondary" id="button-search" type="button" onclick="searchItem()">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
                     </div>
+                    <h5 class="mt-1">
+                        {% if search_info %}
+                            <span class="badge bg-secondary">{{search_info}}</span>
+                            <button class="btn btn-sm" style="background-color: white" type="button" onclick="location.href='http://127.0.0.1:8000/item/'">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                        {% endif %}
+                    </h5>
                     <!-- Categories widget-->
                     <div class="card mt-2" id="categories-card">
                         <div class="card-header">
@@ -48,18 +60,47 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <ul>
+                                <ul class="list-unstyled mb-0">
                                     {% for c in categories %}
-                                        <li><a href="http://127.0.0.1:8000/blog/category/{{c.slug}}">{{c}} ({{c.post_set.count}})</a></li>
+                                        <li><a href="http://127.0.0.1:8000/item/category/{{c.slug}}">
+                                            {{c}} ({{c.item_set.count}})
+                                        </a></li>
                                     {% endfor %}
-                                        <li><a href="http://127.0.0.1:8000/blog/category/no_category">미분류 ({{no_category_post_count}})</a></li>
+                                        <li><a href="http://127.0.0.1:8000/item/category/no_category">
+                                            미분류 ({{no_category_item_count}})
+                                        </a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <h5 class="mt-1">
+                        {% if category %}
+                            <span class="badge bg-secondary">{{category}}</span>
+                            <button class="btn btn-sm" style="background-color: white" type="button" onclick="location.href='http://127.0.0.1:8000/item/'">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                        {% endif %}
+                    </h5>
                 </div>
             </div>
         </div>
+
+        <script>
+            function searchItem(){
+                let searchValue = document.getElementById('search-input').value.trim();
+                if(searchValue.length > 1) {
+                    location.href = "/item/search/" + searchValue + "/";
+                }
+                else {
+                    alert('검색어(' + searchValue + ')가 너무 짧습니다.\n두 글자 이상 입력해주세요.');
+                }
+            };
+            document.getElementById('search-input').addEventListener('keyup',
+                    function(event) {
+                        if(event.key == 'Enter') { searchItem(); }
+                    }
+                    )
+        </script>
 
         <!-- Footer-->
         {% include 'item/footer.html' %}
