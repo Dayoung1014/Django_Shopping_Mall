@@ -1,4 +1,5 @@
 {% extends 'item/base.html' %}
+{% load crispy_forms_tags %}
 {% block head_title %}
     상품 : {{ item.name }}
 {% endblock %}
@@ -39,5 +40,40 @@
                 </div>
             </div>
         </section>
-
+                    <!-- Comments section-->
+                    <div class="mb-5" id="comment-area">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <!-- Comment form-->
+                                {% if user.is_authenticated %}
+                                <form class="mb-4" id="comment-form" method="POST" action="{{item.get_absolute_url}}/new_comment/">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{comment_form | crispy}}
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">Submit</button>
+                                </form>
+                                {% else %}
+                                <a role="button" class="btn btn-outline-dark" href="#" data-toggle="modal" data-target="#loginModal">
+                                    Log in and leave a comment
+                                </a>
+                                {% endif %}
+                                <!-- Single comment-->
+                                {% if item.comment_set.exists %}
+                                {% for comment in item.comment_set.all %}
+                                <div class="d-flex" id="comment-{{comment.pk}}">
+                                    <div class="flex-shrink-0">
+                                        <img class="rounded-circle" src="{{comment.get_avatar_url}}" alt="{{comment.author}}" width="60px" />
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">{{comment.author.username}} &nbsp;&nbsp;&nbsp;
+                                            <small class="text-muted">{{comment.created_at}}</small></div>
+                                        <p>{{comment.content | linebreaks}}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
 {% endblock %}
