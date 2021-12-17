@@ -1,15 +1,15 @@
-{% extends 'item/base.html' %}
+{% extends 'item/base_full_width.html' %}
 {% block head_title %}
     Register Item
 {% endblock %}
 {% block section %}
-    <h1>Register New Post</h1>
+    <h1>Register New Item</h1>
     <hr />
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
             <table>
                 {{form}}
             </table>
-        <button type="submit" class="btn btn-primary float-right">Submit</button>
+        <button type="submit" class="btn btn-secondary float-right">Submit</button>
     </form>
 {% endblock %}
