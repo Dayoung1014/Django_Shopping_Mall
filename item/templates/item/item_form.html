@@ -1,15 +1,15 @@
 {% extends 'item/base_full_width.html' %}
+{% load crispy_forms_tags %}
 {% block head_title %}
     Register Item
 {% endblock %}
 {% block section %}
-    <h1>Register New Item</h1>
+    <h1 class="mt-5">Register New Item</h1>
     <hr />
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" class="mt-5" enctype="multipart/form-data">
         {% csrf_token %}
-            <table>
-                {{form}}
-            </table>
-        <button type="submit" class="btn btn-secondary float-right">Submit</button>
+            {{form | crispy}}
+        <button type="submit" class="btn btn-secondary mt-5 mb-5" style="float:right; width:100%">Register</button>
     </form>
+    {{form.media}}
 {% endblock %}

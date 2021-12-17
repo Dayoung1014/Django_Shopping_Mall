@@ -21,7 +21,7 @@
                                     <!-- name -->
                                     <h5 class="fw-bolder">{{i.name}}</h5>
                                     <!-- description -->
-                                    <h6>{{i.description}}</h6>
+                                    <h6>{{ i.get_description_markdown | truncatewords_html:50 | safe}}</h6>
                                     <!-- price -->
                                     <h6>{{i.price}}</h6>
                                 </div>
