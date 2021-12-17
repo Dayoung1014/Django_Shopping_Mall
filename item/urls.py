@@ -6,5 +6,5 @@ urlpatterns = [
     path('<int:pk>/', views.ItemDetail.as_view()),
     path('search/<str:q>/', views.ItemSearch.as_view()),
     path('category/<str:slug>', views.category_page),
-    #path('register_item/', views.ItemRegister.as_view()),
+    path('register_item/', views.ItemCreate.as_view()),
 ]

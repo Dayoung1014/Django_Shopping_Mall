@@ -47,3 +47,4 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return f'/item/{self.pk}'
+

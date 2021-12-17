@@ -1,5 +1,6 @@
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Item, Category
 from django.db.models import Q
 
@@ -57,3 +58,8 @@ def category_page(request, slug):
                 'category' : category
             }
         )
+
+class ItemCreate(CreateView): # 템플릿 : 모델명_form
+    model = Item
+    fields = ['name', 'description', 'image', 'price', 'company', 'category', 'stock', 'delivery_date']
+
