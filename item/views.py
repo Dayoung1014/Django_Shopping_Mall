@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Item, Category
 from django.db.models import Q
 
@@ -74,3 +75,16 @@ class ItemCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView): # 템플�
             return response
         else :
             return redirect('/item/')
+
+class ItemUpdate(LoginRequiredMixin, UpdateView):
+    model = Item
+    fields = ['name', 'description', 'image', 'price', 'company', 'category', 'stock', 'delivery_date']
+
+    template_name = 'item/item_update_form.html'
+    def dispatch(self, request, *args, **kwargs):
+        current_user = self.request.user
+        if request.user.is_authenticated and (current_user.is_staff or current_user.is_superuser):
+            return super(ItemUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+

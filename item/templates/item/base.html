@@ -40,13 +40,13 @@
                         {% if user.is_authenticated %}
                         {% if user.is_staff or user.is_superuser %}
                         <a class="btn btn-secondary btn-small float-right" style="width:100%;" href="/item/register_item">
-                            <i class="fas fa-pen"></i> &nbsp;Register Item
+                                <i class="fas fa-plus"></i> &nbsp;New Item
                         </a>
                         {% endif %}
                         {% endif %}
                     </div>
                     <!-- Search widget-->
-                    <div class="input-group mt-5">
+                    <div class="input-group mt-3">
                             <input class="form-control" type="text" id="search-input" placeholder="Search" aria-label="Search" aria-describedby="button-search">
                             <div class="input-group-append" >
                                 <button class="btn btn-secondary" id="button-search" type="button" onclick="searchItem()">
@@ -71,11 +71,11 @@
                             <div class="row">
                                 <ul class="list-unstyled mb-0">
                                     {% for c in categories %}
-                                        <li><a href="http://127.0.0.1:8000/item/category/{{c.slug}}">
+                                        <li><a href="http://127.0.0.1:8000/item/category/{{c.slug}}/">
                                             {{c}} ({{c.item_set.count}})
                                         </a></li>
                                     {% endfor %}
-                                        <li><a href="http://127.0.0.1:8000/item/category/no_category">
+                                        <li><a href="http://127.0.0.1:8000/item/category/no_category/">
                                             미분류 ({{no_category_item_count}})
                                         </a></li>
                                 </ul>

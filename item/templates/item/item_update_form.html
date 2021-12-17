@@ -1,0 +1,15 @@
+{% extends 'item/base_full_width.html' %}
+{% block head_title %}
+    Update Item
+{% endblock %}
+{% block section %}
+    <h1>Update Item</h1>
+    <hr />
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <table>
+                {{form}}
+            </table>
+        <button type="submit" class="btn btn-secondary float-right">Submit</button>
+    </form>
+{% endblock %}
