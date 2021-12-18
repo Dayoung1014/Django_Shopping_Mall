@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 class ItemList(ListView):
     model = Item
-    ordering = '-pk'
+    ordering = 'pk' #게시된 순서대로
     paginate_by = 8
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -25,7 +25,7 @@ class ItemSearch(ItemList):
     def get_queryset(self):
         q = self.kwargs['q']
         item_list = Item.objects.filter(
-            Q(name__contains=q) | Q(company__name__contains=q)
+            Q(name__contains=q)
         ).distinct()
         return item_list
 

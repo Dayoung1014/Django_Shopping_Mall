@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from item.models import Item, Comment
+from item.models import Item, Comment, Company
 
 # Create your views here.
 def home_page(request):
@@ -9,11 +9,15 @@ def home_page(request):
                   )
 
 def company_page(request):
-    return render(request, 'single_pages/company_page.html')
+    company_list = Company.objects.all()
+    return render(request, 'single_pages/company_page.html',
+                  {'company_list' : company_list}
+                  )
 
 def mypage(request):
     comment_list = Comment.objects.all()
     return render(request, 'single_pages/mypage.html',
                   {'comment_list' :  comment_list}
                   )
+
 

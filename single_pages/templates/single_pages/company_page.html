@@ -13,6 +13,16 @@
         <style type="text/css">
             a { color: #6c757d; text-decoration: none;}
             a:hover { color: #343a40; text-decoration: underline;}
+
+            .parent {
+            position: relative;
+            }
+
+            .canvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            }
         </style>
     </head>
     <body>
@@ -30,59 +40,159 @@
                     </a>
                 </div>
             </div>
+
         </header>
 
         <section>
-        <div class="container mt-4">
+        <div class="container mt-5">
             <div class="row">
-                <div class="col-12">
-                    <h1>쇼핑몰에 대한 소개를 보여준다.</h1>
+                <h2>Keyboard Store</h2>
+                <h6>서울 도봉구 삼양로144길 33</h6>
+                <h6>02-1234-5678</h6>
+            </div>
+            <hr />
+        </div>
+        </section>
+
+        <section>
+        <div class="container mt-5">
+            <div class="row">
+                <h2>Keyboard Store에서 판매하는 키보드 제조사</h2>
+                {% for company in company_list %}
+                <div class="col-3 mt-3 mb-5">
+                    <h5>{{company.name}}</h5>
+                    <h6>{{company.address}}</h6>
+                    <h6>{{company.contact_number}}</h6>
+                    <h6>{{company.contact_email}}</h6>
                 </div>
+                {% endfor %}
+                <hr />
             </div>
         </div>
         </section>
 
-        <section class="margin-for-footer">
-        <div class="container mt-4">
+    <section class="margin-for-footer">
+        <div class="container mt-5 mb-5">
             <div class="row">
                 <div class="col-12">
-                    <h2>About Store</h2>
-                    <p>카테고리 별 상품 차트, 제조사 별 상품 차트, 가격 차트...</p>
+                    <h2>About products</h2>
+                    <h6>판매 상품 통계 정보</h6>
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
-                    <div class="card" data-toggle="modal" data-target="#portfolio1">
-                        <img class="card-img-top" src="{% static 'single_pages/images/pycon_sy_2017.png' %}">
+                <div class="col-6">
+                    <div class="card" data-toggle="modal" data-target="#chartcard1">
                         <div class="card-body">
-                            <h5 class="card-title">파이썬으로 통계업무 자동화하기</h5>
-                            <p>Python, Django로 통계업무 자동화하기 발표</p>
+                            <h5 class="card-title text-center">제조사 별 상품 갯수</h5>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-4">
-                    <div class="card" data-toggle="modal" data-target="#portfolio2">
-                        <img class="card-img-top" src="{% static 'single_pages/images/automation_python.png' %}">
+                <div class="col-6">
+                    <div class="card" data-toggle="modal" data-target="#chartcard2">
                         <div class="card-body">
-                            <h5 class="card-title">파이썬으로 통계업무 자동화하기</h5>
-                            <p>Python, Django로 통계업무 자동화하기 발표</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-4">
-                    <div class="card" data-toggle="modal" data-target="#portfolio3">
-                        <img class="card-img-top" src="{% static 'single_pages/images/inflearn_django2.png' %}">
-                        <div class="card-body">
-                            <h5 class="card-title">파이썬으로 통계업무 자동화하기</h5>
-                            <p>Python, Django로 통계업무 자동화하기 발표</p>
+                            <h5 class="card-title text-center">카테고리 별 상품 갯수</h5>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </section>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="chartcard1" tabindex="-1" aria-labelledby="ModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel1">제조사 별 상품 갯수</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="chart1_1"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="chartcard2" tabindex="-1" aria-labelledby="ModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel2">카테고리 별 상품 갯수</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="chart1_2"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+        <script>
+let ctx = document.getElementById("chart1_1").getContext("2d");
+
+let chart = new Chart(ctx, {
+  type: "bar",
+  data: {
+     labels: ["한성컴퓨터", "PFU", "레오폴드", "Topre"],
+     datasets: [
+        {
+          label: "제조사 별 상품 갯수",
+          backgroundColor: "#79AEC8",
+          borderColor: "#417690",
+          data: [4, 2, 11, 3]
+        }
+     ]
+  },
+  options: {
+        scales : {
+            yAxes : [{
+                ticks : {
+                    beginAtZero : true
+                }
+            }]
+        }
+  }
+});
+
+let ctx2 = document.getElementById("chart1_2").getContext("2d");
+let chart2 = new Chart(ctx2, {
+  type: "bar",
+  data: {
+     labels: ["기계식 유/무선", "기계식 유선", "정전용량 무접점"],
+     datasets: [
+        {
+          label: "카테고리 별 상품 갯수",
+          backgroundColor: "#79AEC8",
+          borderColor: "#417690",
+          data: [4, 5, 11]
+        }
+     ]
+  },
+  options: {
+        scales : {
+            yAxes : [{
+                ticks : {
+                    beginAtZero : true
+                }
+            }]
+        }
+  }
+});
+    </script>
+
 
         <!-- Footer-->
         {% include 'item/footer.html' %}

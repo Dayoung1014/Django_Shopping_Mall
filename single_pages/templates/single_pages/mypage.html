@@ -8,14 +8,14 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-6 mt-5 mb-5" style="display: flex; justify-content: center">
+            <div class="col-12 mt-3 mb-5" style="display: flex; justify-content: center">
                 {% if user.socialaccount_set.all.0.get_avatar_url %}
                     <img class="rounded-circle" width="250px" src="{{user.socialaccount_set.all.0.get_avatar_url}}">
                 {% else %}
                     <img class="rounded-circle" width="250px" src="https://doitdjango.com/avatar/id/434/9bc8058cdec56c97/svg/{{user.email}}">
                 {% endif %}
             </div>
-            <div class="col-6 mt-5">
+            <div class="text-center">
                 <h5>username : {{user.username}}</h5>
                 <h5>email : {{user.email}}</h5>
                 <h5>last login : {{user.last_login | date:"Y-m-d H:m:s"}}</h5>
@@ -33,7 +33,7 @@
                 {% for comment in comment_list %}
                 {% if request.user == comment.author %}
                 <a href="{{comment.item.get_absolute_url}}">
-                <div class="d-flex mt-3">
+                <div class="d-flex mt-3 mb-3">
                     <div class="flex-shrink-0">
                         <img class="rounded-circle" src="{{comment.item.image.url}}" alt="{{comment.item}}" width="60px" />
                     </div>
