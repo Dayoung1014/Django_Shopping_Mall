@@ -15,10 +15,14 @@
                             <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
                         {% endif %}
                     <div class="col-md-6">
-                        <h1 class="display-5 fw-bolder">{{item.name}}</h1>
+                        <h2 class="fw-bolder">{{item.name}}</h2 class="fw-bolder">
+                        <hr />
                         <div class="fs-5 mb-5">
-		                    <span>{{ item.get_description_markdown | truncatewords_html:50 | safe}}</span><br>
-		                    <span>{{item.price}}KRW</span>
+		                    <h6>{{ item.get_description_markdown | truncatewords_html:50 | safe}}</h6><br>
+                            <h6>제조사 : {{item.company}}</h6>
+		                    <h6>가격 : {{item.price}} 원</h6>
+                            <h6>재고 : {{item.stock}} 개</h6>
+                            <h6>배송 예정일 : {{item.delivery_date | date:"Y년 m월 d일"}}</h6>
                         </div>
                         <div class="mt-3">
                             {% if user.is_authenticated %}
@@ -51,7 +55,7 @@
                                     <div class="form-group">
                                         {{comment_form | crispy}}
                                     </div>
-                                    <button type="submit" class="btn btn-secondary">Submit</button>
+                                    <button type="submit" class="btn btn-secondary mt-1">Submit</button>
                                 </form>
                                 {% else %}
                                 <a role="button" class="btn btn-outline-dark" href="#" data-toggle="modal" data-target="#loginModal">
@@ -61,7 +65,7 @@
                                 <!-- Single comment-->
                                 {% if item.comment_set.exists %}
                                 {% for comment in item.comment_set.all %}
-                                <div class="d-flex" id="comment-{{comment.pk}}">
+                                <div class="d-flex mt-3" id="comment-{{comment.pk}}">
                                     <div class="flex-shrink-0">
                                         <img class="rounded-circle" src="{{comment.get_avatar_url}}" alt="{{comment.author}}" width="60px" />
                                     </div>

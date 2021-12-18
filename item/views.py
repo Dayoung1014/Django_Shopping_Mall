@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 class ItemList(ListView):
     model = Item
-    ordering = 'pk'
+    ordering = '-pk'
     paginate_by = 8
 
     def get_context_data(self, *, object_list=None, **kwargs):

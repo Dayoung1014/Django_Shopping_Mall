@@ -38,7 +38,7 @@ class Company(models.Model):
 
 # 상품
 class Item(models.Model):
-    name = models.CharField(max_length=30, verbose_name="상품 이름")
+    name = models.CharField(max_length=100, verbose_name="상품 이름")
     description = MarkdownxField()
     image = models.ImageField(upload_to='item/images/%Y/%m/%d/', verbose_name="상품 이미지")
     price = models.IntegerField(default=0, verbose_name="상품 가격")
