@@ -1,0 +1,54 @@
+{% extends 'item/base_full_width.html' %}
+{% block head_title %}
+    Mypage
+{% endblock %}
+{% block section %}
+    <h1 class="mt-5">Mypage</h1>
+    <hr />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 mt-5 mb-5" style="display: flex; justify-content: center">
+                {% if user.socialaccount_set.all.0.get_avatar_url %}
+                    <img class="rounded-circle" width="250px" src="{{user.socialaccount_set.all.0.get_avatar_url}}">
+                {% else %}
+                    <img class="rounded-circle" width="250px" src="https://doitdjango.com/avatar/id/434/9bc8058cdec56c97/svg/{{user.email}}">
+                {% endif %}
+            </div>
+            <div class="col-6 mt-5">
+                <h5>username : {{user.username}}</h5>
+                <h5>email : {{user.email}}</h5>
+                <h5>last login : {{user.last_login | date:"Y-m-d H:m:s"}}</h5>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mt-3">사용자가 작성한 댓글</h3>
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Single comment-->
+                {% if comment_list.exists %}
+                {% for comment in comment_list %}
+                {% if request.user == comment.author %}
+                <a href="{{comment.item.get_absolute_url}}">
+                <div class="d-flex mt-3">
+                    <div class="flex-shrink-0">
+                        <img class="rounded-circle" src="{{comment.item.image.url}}" alt="{{comment.item}}" width="60px" />
+                    </div>
+                    <div class="ms-3">
+                        <div class="fw-bold" style="color:black">{{comment.item.name}} &nbsp;&nbsp;&nbsp;
+                            <small class="text-muted">{{comment.created_at | date:"Y-m-d H:m:s"}}</small></div>
+                        <p style="color:black">{{comment.content}}</p>
+                    </div>
+                </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
