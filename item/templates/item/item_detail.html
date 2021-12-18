@@ -17,10 +17,12 @@
                     <div class="col-md-6">
                         <h2 class="fw-bolder">{{item.name}}</h2 class="fw-bolder">
                         <a href="{{item.get_absolute_url}}/detail/like/">
+                            {% if user.is_authenticated%}
                             {% if user in item.like.all %}
                                 <i class="fas fa-heart fa-lg"></i>
                             {% else %}
                                 <i class="far fa-heart fa-lg"></i>
+                            {% endif %}
                             {% endif %}
                         </a>
                         <hr />

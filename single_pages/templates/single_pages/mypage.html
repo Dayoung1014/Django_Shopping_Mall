@@ -3,6 +3,7 @@
     Mypage
 {% endblock %}
 {% block section %}
+{% if user.is_authenticated%}
     <h1 class="mt-5">Mypage</h1>
     <hr />
 
@@ -81,4 +82,5 @@
         </div>
     </section>
 
+{% endif %}
 {% endblock %}
