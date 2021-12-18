@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from item.models import Item, Comment, Company
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def home_page(request):
@@ -15,9 +16,19 @@ def company_page(request):
                   )
 
 def mypage(request):
+    item_list = Item.objects.all()
     comment_list = Comment.objects.all()
     return render(request, 'single_pages/mypage.html',
-                  {'comment_list' :  comment_list}
+                  {'comment_list' :  comment_list,
+                   'item_list' : item_list}
                   )
 
-
+def likes_mypage(request, pk): #마이페이지 좋아요 처리
+    like_item = get_object_or_404(Item, pk=pk)
+    if request.user in like_item.like.all():
+        like_item.like.remove(request.user)
+        like_item.save()
+    else:
+        like_item.like.add(request.user)
+        like_item.save()
+    return redirect('/mypage/')

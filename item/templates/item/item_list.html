@@ -4,30 +4,35 @@
         <section class="py-5">
             <div class="container px-1 px-lg-2 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="main-area">
-	            <!-- Book List-->
+	            <!-- List-->
                     {% if item_list.exists %}
                     {% for i in item_list %}
                     <div class="col mb-5">
                         <div class="card h-100">
-                            <!-- Book image-->
+                            <!-- image-->
                             {% if i.image %}
                                 <img class="card-img-top" src="{{ i.image.url }}" alt="..." />
                             {% else %}
                                 <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
                             {% endif %}
-                            <!-- Book details-->
+                            <!-- details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- name -->
                                     <h5 class="fw-bolder">{{i.name | truncatechars:30 }}</h5>
-                                    <!-- description
-                                    <h6 style="color:#6c757d">{{ i.get_description_markdown | truncatewords_html:10 | safe}}</h6> -->
                                     <!-- 제조사 -->
                                     <h6 style="color:#6c757d">{{ i.company }}</h6>
                                     <!-- 제조사 -->
                                     <h6 style="color:#6c757d">{{ i.category }}</h6>
                                     <!-- price -->
                                     <h6 style="color:#6c757d">{{i.price}} 원</h6>
+                                    <a href="{{i.get_absolute_url}}/list/like/">
+                                    {% if user in i.like.all %}
+                                        <i class="fas fa-heart fa-lg"></i>
+                                    {% else %}
+                                        <i class="far fa-heart fa-lg"></i>
+                                    {% endif %}
+                                    </a>
                                 </div>
                             </div>
                             <!-- Book actions-->

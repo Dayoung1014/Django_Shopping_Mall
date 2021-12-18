@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Item, Category
+from .models import Item, Category, Comment, Company
 from django.db.models import Q
 from .forms import CommentForm
 from django.shortcuts import get_object_or_404
@@ -17,6 +17,7 @@ class ItemList(ListView):
         context = super(ItemList, self).get_context_data()
         context['categories'] = Category.objects.all()
         context['no_category_item_count'] = Item.objects.filter(category=None).count()
+        context['companies'] = Company.objects.all()
         return context
 
 class ItemSearch(ItemList):
@@ -42,8 +43,29 @@ class ItemDetail(DetailView):
         context = super(ItemDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
         context['no_category_item_count'] = Item.objects.filter(category=None).count()
+        context['companies'] = Company.objects.all()
         context['comment_form'] = CommentForm
         return context
+
+def likes_list(request, pk): #상품리스트 좋아요 처리
+    like_item = get_object_or_404(Item, pk=pk)
+    if request.user in like_item.like.all():
+        like_item.like.remove(request.user)
+        like_item.save()
+    else:
+        like_item.like.add(request.user)
+        like_item.save()
+    return redirect('/item/')
+
+def likes_detail(request, pk): #상품상세페이지 좋아요 처리
+    like_item = get_object_or_404(Item, pk=pk)
+    if request.user in like_item.like.all():
+        like_item.like.remove(request.user)
+        like_item.save()
+    else:
+        like_item.like.add(request.user)
+        like_item.save()
+    return redirect(like_item.get_absolute_url())
 
 def new_comment(request, pk):
     if request.user.is_authenticated:
@@ -76,7 +98,21 @@ def category_page(request, slug):
                 'item_list' : item_list,
                 'categories' : Category.objects.all(),
                 'no_category_post_count' : Item.objects.filter(category=None).count(),
-                'category' : category
+                'category' : category,
+                'companies': Company.objects.all(),
+            }
+        )
+
+def company_page(request, company_name):
+    company = Company.objects.get(name=company_name)
+    item_list = Item.objects.filter(company=company)
+
+    return render(request, 'item/item_list.html',
+            {
+                'item_list' : item_list,
+                'companies' : Company.objects.all(),
+                'company' : company,
+                'categories': Category.objects.all(),
             }
         )
 

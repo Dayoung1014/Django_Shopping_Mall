@@ -9,4 +9,7 @@ urlpatterns = [
     path('register_item/', views.ItemCreate.as_view()),
     path('update_item/<int:pk>/', views.ItemUpdate.as_view()),
     path('<int:pk>/new_comment/', views.new_comment),
+    path('company/<str:company_name>/', views.company_page),
+    path('<int:pk>/list/like/', views.likes_list),
+    path('<int:pk>/detail/like/', views.likes_detail),
 ]

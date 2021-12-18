@@ -16,6 +16,13 @@
                         {% endif %}
                     <div class="col-md-6">
                         <h2 class="fw-bolder">{{item.name}}</h2 class="fw-bolder">
+                        <a href="{{item.get_absolute_url}}/detail/like/">
+                            {% if user in item.like.all %}
+                                <i class="fas fa-heart fa-lg"></i>
+                            {% else %}
+                                <i class="far fa-heart fa-lg"></i>
+                            {% endif %}
+                        </a>
                         <hr />
                         <div class="fs-5 mb-5">
 		                    <h6>{{ item.get_description_markdown | truncatewords_html:50 | safe}}</h6><br>
@@ -71,7 +78,15 @@
                                     </div>
                                     <div class="ms-3">
                                         <div class="fw-bold">{{comment.author.username}} &nbsp;&nbsp;&nbsp;
-                                            <small class="text-muted">{{comment.created_at}}</small></div>
+                                            <small class="text-muted">{{comment.created_at}}</small>
+                                            <!-- 삭제
+                                            {% if request.user == comment.author %}
+                                            <div class="mx-2" style="display:inline;">
+                                                <a href="{{item.get_absolute_url}}/delete_comment/{{comment.get_comment_pk}}/" class="btn btn-sm btn-outline-secondary">삭제</a>
+                                            </div>
+                                            {% endif %}
+                                            -->
+                                        </div>
                                         <p>{{comment.content | linebreaks}}</p>
                                     </div>
                                 </div>
@@ -81,3 +96,11 @@
                         </div>
                     </div>
 {% endblock %}
+
+
+                        <a href="{{item.get_absolute_url}}/like/">
+                                    {% if user in item.like.all %}
+                                        <i class="fas fa-heart fa-lg"></i>
+                                    {% else %}
+                                        <i class="far fa-heart"></i>
+                                    {% endif %}

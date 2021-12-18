@@ -47,6 +47,7 @@ class Item(models.Model):
     stock = models.IntegerField(default=0, verbose_name="상품 재고 갯수")
     delivery_date = models.DateTimeField(default=datetime.now() + timedelta(days=2),
                                          verbose_name="상품 배송 도착 예정 날짜")  # default : 현재 시간부터 2일 뒤
+    like = models.ManyToManyField(User, related_name='likes',blank=True)
 
     def __str__(self):
         return f'[{self.pk}]{self.name}'
