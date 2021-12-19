@@ -1,4 +1,5 @@
 {% extends 'item/base_full_width.html' %}
+{% load humanize %}
 {% block head_title %}
     Mypage
 {% endblock %}
@@ -71,7 +72,7 @@
                             </a>
                             <h5 class="card-title"><a href="{{item.get_absolute_url}}" class="text-decoration-none text-dark">{{item.name}}</a></h5>
                             <p>{{item.company}}</p>
-                            <p>{{item.price}} 원</p>
+                            <p>{{item.price | intcomma}} 원</p>
                         </div>
                     </div>
                 </div>

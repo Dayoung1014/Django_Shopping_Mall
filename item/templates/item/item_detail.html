@@ -1,5 +1,6 @@
 {% extends 'item/base.html' %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 {% block head_title %}
     상품 : {{ item.name }}
 {% endblock %}
@@ -29,7 +30,7 @@
                         <div class="fs-5 mb-5">
 		                    <h6>{{ item.get_description_markdown | truncatewords_html:50 | safe}}</h6><br>
                             <h6>제조사 : {{item.company}}</h6>
-		                    <h6>가격 : {{item.price}} 원</h6>
+		                    <h6>가격 : {{item.price | intcomma}} 원</h6>
                             <h6>재고 : {{item.stock}} 개</h6>
                             <h6>배송 예정일 : {{item.delivery_date | date:"Y년 m월 d일"}}</h6>
                         </div>

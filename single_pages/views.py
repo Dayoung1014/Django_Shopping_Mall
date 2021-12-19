@@ -14,10 +14,11 @@ def home_page(request):
 def company_page(request):
     company_list = Company.objects.all()
     category_list = Category.objects.all()
-
+    item_list = Item.objects.all()
     return render(request, 'single_pages/company_page.html',
                   {'company_list' : company_list,
-                   'category_list' : category_list}
+                   'category_list' : category_list,
+                   'item_list' : item_list}
                   )
 
 def mypage(request):

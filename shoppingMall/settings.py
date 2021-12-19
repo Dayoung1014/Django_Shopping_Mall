@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'item',
     'single_pages',
     'phonenumber_field',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
