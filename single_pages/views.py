@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from item.models import Item, Comment, Company
+from item.models import Item, Comment, Company, Category
 from django.shortcuts import get_object_or_404
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 # Create your views here.
 def home_page(request):
@@ -11,16 +13,20 @@ def home_page(request):
 
 def company_page(request):
     company_list = Company.objects.all()
+    category_list = Category.objects.all()
+
     return render(request, 'single_pages/company_page.html',
-                  {'company_list' : company_list}
+                  {'company_list' : company_list,
+                   'category_list' : category_list}
                   )
 
 def mypage(request):
     item_list = Item.objects.all()
     comment_list = Comment.objects.all()
+
     return render(request, 'single_pages/mypage.html',
                   {'comment_list' :  comment_list,
-                   'item_list' : item_list}
+                   'item_list' : item_list,}
                   )
 
 def likes_mypage(request, pk): #마이페이지 좋아요 처리
@@ -32,3 +38,4 @@ def likes_mypage(request, pk): #마이페이지 좋아요 처리
         like_item.like.add(request.user)
         like_item.save()
     return redirect('/mypage/')
+

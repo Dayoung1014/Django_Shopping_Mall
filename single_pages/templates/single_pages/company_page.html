@@ -24,6 +24,7 @@
             height: 100%;
             }
         </style>
+
     </head>
     <body>
         <!-- navbar-->
@@ -139,60 +140,58 @@
     </div>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
         <script>
-let ctx = document.getElementById("chart1_1").getContext("2d");
-
-let chart = new Chart(ctx, {
-  type: "bar",
-  data: {
-     labels: ["한성컴퓨터", "PFU", "레오폴드", "Topre"],
-     datasets: [
-        {
-          label: "제조사 별 상품 갯수",
-          backgroundColor: "#79AEC8",
-          borderColor: "#417690",
-          data: [4, 2, 11, 3]
-        }
-     ]
-  },
-  options: {
-        scales : {
-            yAxes : [{
+            let ctx = document.getElementById("chart1_1").getContext("2d");
+            let chart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: [{% for c in company_list %} '{{c.name}}', {% endfor %}],
+                datasets: [
+                {
+                        label: "제조사 별 상품 갯수",
+                        backgroundColor: "#79AEC8",
+                        borderColor: "#417690",
+                        data: [{% for c in company_list %} '{{c.item_set.count}}', {% endfor %}]
+                    }
+                ]
+            },
+            options: {
+                scales : {
+                yAxes : [{
                 ticks : {
                     beginAtZero : true
                 }
             }]
         }
-  }
+    }
 });
 
-let ctx2 = document.getElementById("chart1_2").getContext("2d");
-let chart2 = new Chart(ctx2, {
-  type: "bar",
-  data: {
-     labels: ["기계식 유/무선", "기계식 유선", "정전용량 무접점"],
-     datasets: [
-        {
-          label: "카테고리 별 상품 갯수",
-          backgroundColor: "#79AEC8",
-          borderColor: "#417690",
-          data: [4, 5, 11]
-        }
-     ]
-  },
-  options: {
-        scales : {
-            yAxes : [{
+            let ctx2 = document.getElementById("chart1_2").getContext("2d");
+            let chart2 = new Chart(ctx2, {
+            type: "bar",
+            data: {
+                labels: [{% for c in category_list %} '{{c.name}}', {% endfor %}],
+                datasets: [
+                {
+                        label: "카테고리 별 상품 갯수",
+                        backgroundColor: "#79AEC8",
+                        borderColor: "#417690",
+                        data: [{% for c in category_list %} '{{c.item_set.count}}', {% endfor %}]
+                    }
+                ]
+            },
+            options: {
+                scales : {
+                yAxes : [{
                 ticks : {
                     beginAtZero : true
                 }
             }]
         }
-  }
+    }
 });
     </script>
-
 
         <!-- Footer-->
         {% include 'item/footer.html' %}
